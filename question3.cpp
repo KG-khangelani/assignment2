@@ -106,8 +106,8 @@ int main() {
 
     cout << "Displaying constents of result.dat:" << endl << endl;
     cout << "Number of families that ordered the special: " << families_ordered_special << endl;
-    cout << "Commission earned from the special meal: R" << special_meal_commission << endl;
-    cout << "Average spent per person for the evening: R" << average_spending_per_person << endl;
+    cout << fixed << setprecision(2) << "Commission earned from the special meal: R" << special_meal_commission << endl;
+    cout << fixed << setprecision(2) << "Average spent per person for the evening: R" << average_spending_per_person << endl;
 
     return 0;
 }
