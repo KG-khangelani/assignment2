@@ -17,9 +17,7 @@ orders.dat contains the following data:
 */
 
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <array>
 
 using namespace std;
 
@@ -40,20 +38,20 @@ void create_file() {
     }
 
     // Write data to the file
-    outfile << "5 2 2 670.60\n"; // 1
-    outfile << "6 4 2 890.80\n"; // 2
-    outfile << "2 2 0 220.00\n"; // 3
-    outfile << "10 8 1 1340.60\n"; // 4
-    outfile << "10 4 3 1430.70\n"; // 5
-    outfile << "4 0 0 460.30\n"; // 6
-    outfile << "5 3 1 700.00\n"; // 7
-    outfile << "7 5 2 1100.80\n"; // 8
-    outfile << "3 1 0 340.80\n"; // 9
+    outfile << "5 2 2 670.60\n";
+    outfile << "6 4 2 890.80\n";
+    outfile << "2 2 0 220.00\n";
+    outfile << "10 8 1 1340.60\n";
+    outfile << "10 4 3 1430.70\n";
+    outfile << "4 0 0 460.30\n";
+    outfile << "5 3 1 700.00\n";
+    outfile << "7 5 2 1100.80\n";
+    outfile << "3 1 0 340.80\n";
 
     outfile.close(); // Close the file
 }
 
-void output_file(int families_ordered_special, float special_meal_commission, float average_spending_per_person, int total_number_of_people) {
+void output_file(int families_ordered_special, float special_meal_commission, float average_spending_per_person) {
     std::ofstream outfile("result.dat"); // Open the file for writing
     if (!outfile) {
         std::cerr << "Unable to create file" << std::endl;
@@ -85,7 +83,6 @@ void read_file() {
         orders[index].wine_bottles = wine_bottles;
         orders[index].total_bill = total_bill;
         index++;
-
     }
 
     infile.close(); // Close the file
@@ -110,8 +107,11 @@ int main() {
         total_money_spent += family_order.total_bill;
     }
 
+    // Calculate the average spending per person
     average_spending_per_person += total_money_spent / static_cast<float>(total_number_of_people);
-    output_file(families_ordered_special, special_meal_commission, average_spending_per_person, total_number_of_people);
+
+    // Output the results to a file
+    output_file(families_ordered_special, special_meal_commission, average_spending_per_person);
 
     return 0;
 }
