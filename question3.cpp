@@ -53,6 +53,21 @@ void create_file() {
     outfile.close(); // Close the file
 }
 
+void output_file(int families_ordered_special, float special_meal_commission, float average_spending_per_person, int total_number_of_people) {
+    std::ofstream outfile("result.dat"); // Open the file for writing
+    if (!outfile) {
+        std::cerr << "Unable to create file" << std::endl;
+        return;
+    }
+
+    // Write data to the file
+    outfile << "Displaying constents of result.dat:" << endl << endl;
+    outfile << "Number of families that ordered the special: " << families_ordered_special << endl;
+    outfile << fixed << setprecision(2) << "Commission earned from the special meal: R" << special_meal_commission << endl;
+    outfile << fixed << setprecision(2) << "Average spent per person for the evening: R" << average_spending_per_person << endl;
+    outfile.close(); // Close the file
+}
+
 void read_file() {
     std::ifstream infile("orders.dat"); // Open the file for reading
     if (!infile) {
@@ -71,10 +86,6 @@ void read_file() {
         orders[index].total_bill = total_bill;
         index++;
 
-        // cout << "Family members: " << family_members << endl;
-        // cout << "Special members: " << special_members << endl;
-        // cout << "Wine bottles: " << wine_bottles << endl;
-        // cout << "Total bill: " << total_bill << endl;
     }
 
     infile.close(); // Close the file
@@ -100,14 +111,7 @@ int main() {
     }
 
     average_spending_per_person += total_money_spent / static_cast<float>(total_number_of_people);
-
-    cout << "Total number of people: " << total_number_of_people << endl;
-    cout << "Average spending per person: " << average_spending_per_person << endl;
-
-    cout << "Displaying constents of result.dat:" << endl << endl;
-    cout << "Number of families that ordered the special: " << families_ordered_special << endl;
-    cout << fixed << setprecision(2) << "Commission earned from the special meal: R" << special_meal_commission << endl;
-    cout << fixed << setprecision(2) << "Average spent per person for the evening: R" << average_spending_per_person << endl;
+    output_file(families_ordered_special, special_meal_commission, average_spending_per_person, total_number_of_people);
 
     return 0;
 }
