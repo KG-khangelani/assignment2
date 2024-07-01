@@ -25,7 +25,7 @@ using namespace std;
 
 struct order {
     int family_members;
-    int special_members;
+    int members_ordered_special;
     int wine_bottles;
     float total_bill;
 };
@@ -66,11 +66,11 @@ void read_file() {
     while (infile >> family_members >> special_members >> wine_bottles >> total_bill) {
         int index;
         orders[index].family_members = family_members;
-        orders[index].special_members = special_members;
+        orders[index].members_ordered_special = special_members;
         orders[index].wine_bottles = wine_bottles;
         orders[index].total_bill = total_bill;
-        cout << "Order " << index + 1 << " done!" << endl;
         index++;
+
         // cout << "Family members: " << family_members << endl;
         // cout << "Special members: " << special_members << endl;
         // cout << "Wine bottles: " << wine_bottles << endl;
@@ -81,7 +81,33 @@ void read_file() {
 }
 
 int main() {
+    int families_ordered_special = 0;
+    float special_meal_commission;
+    float average_spending_per_person;
+    int total_number_of_people = 0;
+    float total_money_spent = 0;
+
     create_file();
     read_file();
+
+    for (order family_order : orders) {
+        if (family_order.members_ordered_special >= 4 && family_order.wine_bottles >= 2) {
+            families_ordered_special++;
+            special_meal_commission += 0.03 * family_order.total_bill;
+        }
+        total_number_of_people += family_order.family_members;
+        total_money_spent += family_order.total_bill;
+    }
+
+    average_spending_per_person += total_money_spent / static_cast<float>(total_number_of_people);
+
+    cout << "Total number of people: " << total_number_of_people << endl;
+    cout << "Average spending per person: " << average_spending_per_person << endl;
+
+    cout << "Displaying constents of result.dat:" << endl << endl;
+    cout << "Number of families that ordered the special: " << families_ordered_special << endl;
+    cout << "Commission earned from the special meal: R" << special_meal_commission << endl;
+    cout << "Average spent per person for the evening: R" << average_spending_per_person << endl;
+
     return 0;
 }
