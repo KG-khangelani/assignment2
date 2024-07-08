@@ -24,7 +24,7 @@ void create_file() {
     // Write data to the file
     outfile <<
         R"(
-    Dear Julia T,
+    Dear Julia,
     You are the most beautiful girl that I have ever seen. I was wondering
     if you would like to come and visit me. My mother will make us
     pancakes with ice cream. My dog, Bella, just had three beautiful puppies.
@@ -75,12 +75,23 @@ void encode_letter () {
     encoded_content = replaceCharWithString(encoded_content, "a", "1S");
     encoded_content = replaceCharWithString(encoded_content, "p", "1M");
     encoded_content = replaceCharWithString(encoded_content, "i", "1Q");
-    cout << encoded_content;
     infile.close(); // Close the file
+
+    ofstream outfile("encode.txt"); // Open the file for writing
+    if (!outfile) {
+        std::cerr << "Unable to create file" << std::endl;
+        return;
+    }
+
+    // Write data to the file
+    outfile << encoded_content;
+    outfile.close(); // Close the file
 }
 
 int main () {
     create_file();
     encode_letter();
+    cout << "File has been created and encoded successfully" << endl;
+    cout << ifstream("encode.txt").rdbuf();
     return 0;
 }
