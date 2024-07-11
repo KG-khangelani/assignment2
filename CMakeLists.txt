@@ -7,7 +7,6 @@ add_executable(plusRepo
 #        question1.cpp
 #        question2.cpp
 #        question3.cpp
-#        question4.cpp
-        question4v2.cpp
+        question4.cpp
         #        testStuff.cpp
 )
