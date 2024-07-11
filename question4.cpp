@@ -13,7 +13,6 @@ Write a program that reads an input file with the letter character by character.
 using namespace std;
 
 vector<char> content = {};
-vector<char> encoded_content = {};
 
 void replaceCharWithString(vector<char> &full_letter, char char_to_replace, const vector<char>& replacement) {
     for (int i = 0; i < full_letter.size(); i++) {
@@ -35,12 +34,14 @@ void replaceCharWithString(vector<char> &full_letter, char char_to_replace, cons
     }
 }
 
-void encode_letter () {
+void encode_letter (char path[]) {
     // open the file for reading.
     ifstream file;
-    file.open("../letter.txt");
+    file.open(path);
     if (!file) {
-        cerr << "Unable to open file" << endl;
+        cerr << "Unable to open file. Make sure:\n"
+                "-  Make sure you the directory level is correct (ie ../ or ../../)\n"
+                "-  File extension is included(ie .txt)" << endl;
         return;
     }
 
@@ -71,12 +72,17 @@ void encode_letter () {
         outfile << i;
     }
     outfile.close();
-
-    cout << "Encoded letter saved to: encode.txt" << endl;
+    cout << "File has been encoded successfully." << endl;
 }
 
 int main () {
-    cout << "loading...\n" << endl;
-    encode_letter();
+    char filepath[] = "";
+    cout << "---    Question 4 started    ---\n" << endl;
+    cout << "Enter the file path: ";
+    cin >> filepath;
+    cout << endl;
+    cout << "loading... path: \""<< filepath << "\"\n" << endl;
+    encode_letter(filepath);
+    cout << "---    End of programme    ---" << endl;
     return 0;
 }
