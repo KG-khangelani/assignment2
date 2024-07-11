@@ -7,90 +7,76 @@ Write a program that reads an input file with the letter character by character.
 
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <algorithm>
+#include <cstring>
+#include <vector>
+
 using namespace std;
 
-string content, encoded_content;
+vector<char> content = {};
+vector<char> encoded_content = {};
 
-void create_file() {
-    ofstream outfile("letter.txt"); // Open the file for writing
-    if (!outfile) {
-        std::cerr << "Unable to create file" << std::endl;
-        return;
-    }
+void replaceCharWithString(vector<char> &full_letter, char char_to_replace, const vector<char>& replacement) {
+    for (int i = 0; i < full_letter.size(); i++) {
+        if (full_letter[i] == char_to_replace) {
+            full_letter.erase(full_letter.begin() + i);
+            for (char j : replacement) {
+                full_letter.insert(full_letter.begin() + i, j);
+                i++;
+            }
+        }
 
-    // Write data to the file
-    outfile <<
-        R"(
-    Dear Julia,
-    You are the most beautiful girl that I have ever seen. I was wondering
-    if you would like to come and visit me. My mother will make us
-    pancakes with ice cream. My dog, Bella, just had three beautiful puppies.
-    Mom says I may only keep one of them. I would like you to help me
-    choose one, because they are all so cute and adorable. And just
-    because you are my special friend, you may also have one if you want.
-    Your friend,
-    Hector
-        )";
-    outfile.close(); // Close the file
-}
-
-string replaceCharWithString(const string& str, const string& ch, const string& newStr) {
-    string result = str;
-    size_t pos = str.find(ch);
-    while ((pos = result.find(ch, pos)) != string::npos) {
-        result.replace(pos, ch.length(), newStr);
-        pos += newStr.length();
+        if (full_letter[i] == toupper(char_to_replace)) {
+            full_letter.erase(full_letter.begin() + i);
+            for (char j: replacement) {
+                full_letter.insert(full_letter.begin() + i, toupper(j));
+                i++;
+            }
+        }
     }
-    size_t posUpper = str.find(toupper(ch[0]));
-    while ((posUpper = result.find(toupper(ch[0]), posUpper)) != string::npos) {
-        result.replace(posUpper, ch.length(), newStr);
-        posUpper += newStr.length();
-    }
-    return result;
 }
 
 void encode_letter () {
-    ifstream infile; // Open the file for reading
-    infile.open("letter.txt");
-    if (!infile) {
+    // open the file for reading.
+    ifstream file;
+    file.open("../letter.txt");
+    if (!file) {
         cerr << "Unable to open file" << endl;
         return;
     }
 
-    string line;
-
-    while (getline(infile, line)) {
-        content += line + "\n";
+    // read the file character by character.
+    char ch;
+    while (file >> noskipws >> ch) {
+        content.push_back(ch);
     }
+    file.close();
 
-    cout << content;
-    cout << "    ===============================\n";
-    encoded_content = replaceCharWithString(content, "t", "1Y");
-    encoded_content = replaceCharWithString(encoded_content, "h", "1O");
-    encoded_content = replaceCharWithString(encoded_content, "j", "1X");
-    encoded_content = replaceCharWithString(encoded_content, "d", "1B");
-    encoded_content = replaceCharWithString(encoded_content, "a", "1S");
-    encoded_content = replaceCharWithString(encoded_content, "p", "1M");
-    encoded_content = replaceCharWithString(encoded_content, "i", "1Q");
-    infile.close(); // Close the file
+    // encode the letter.
+    replaceCharWithString(content, 't', {'1', 'Y'});
+    replaceCharWithString(content, 'h', {'1','O'});
+    replaceCharWithString(content, 'j', {'1', 'X'});
+    replaceCharWithString(content, 'd', {'1', 'B'});
+    replaceCharWithString(content, 'a', {'1', 'S'});
+    replaceCharWithString(content, 'p', {'1', 'M'});
+    replaceCharWithString(content, 'i', {'1', 'Q'});
 
-    ofstream outfile("encode.txt"); // Open the file for writing
+    // write the encoded letter to a new file.
+    ofstream outfile("../encode.txt");
     if (!outfile) {
-        std::cerr << "Unable to create file" << std::endl;
+        cerr << "Unable to create file" << endl;
         return;
     }
 
-    // Write data to the file
-    outfile << encoded_content;
-    outfile.close(); // Close the file
+    for (char i : content) {
+        outfile << i;
+    }
+    outfile.close();
+
+    cout << "Encoded letter saved to: encode.txt" << endl;
 }
 
 int main () {
-    create_file();
+    cout << "loading...\n" << endl;
     encode_letter();
-    cout << "File has been created and encoded successfully" << endl;
-    cout << ifstream("encode.txt").rdbuf();
     return 0;
 }
