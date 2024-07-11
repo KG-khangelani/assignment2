@@ -7,7 +7,6 @@ Write a program that reads an input file with the letter character by character.
 
 #include <iostream>
 #include <fstream>
-#include <cstring>
 #include <vector>
 
 using namespace std;
