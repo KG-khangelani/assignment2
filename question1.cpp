@@ -1,22 +1,24 @@
 // Question 1
-#include <iostream>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
-double calcPostage (double weight, int zone) {
+double calcPostage (const double weight, const int zone) {
     // GlobalMail
     double cost = 0;
     if (zone >= 1 && zone <= 3) {
         cost = 108;
     }
-    if (zone >= 4 && zone <= 6) {
+    else if (zone >= 4 && zone <= 6) {
         cost = 130;
+    } else {
+        cerr << "Invalid zone" << endl;
     }
     return cost*weight;
 }
 
-double calcPostage (double weight, double length, double width, double height) {
+double calcPostage (const double& weight, const double& length, const double& width, const double& height) {
     // DHL Express
     double cost = 70;
     double volWeight = (length*width*height)/5000;

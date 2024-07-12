@@ -13,7 +13,6 @@ and the second time with a year of birth that represents a person older than 18 
 */
 
 #include <iostream>
-#include <string>
 #include <cassert>
 
 using namespace std;
