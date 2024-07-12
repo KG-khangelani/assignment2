@@ -7,7 +7,7 @@ Each line in the file contains the following data: the number of members in a fa
 of family members that ordered the special, the number of bottles of wine that the family ordered,
 and the total bill amount. Create the file orders.dat containing the orders of all the families that 
 Peter served, as specified below. Declare variables of type int for the first three values and a 
-variable of type double for the total bill amount.
+variable of type float for the total bill amount.
 
 read data from the file ordars.dat and display it on the screen.
 orders.dat contains the following data:
@@ -26,15 +26,15 @@ struct order {
     int family_members;
     int members_ordered_special;
     int wine_bottles;
-    double total_bill;
+    float total_bill;
 };
 
 order orders[9];
 
 void create_file() {
-    std::ofstream outfile("orders.dat"); // Open the file for writing
+    ofstream outfile("orders.dat"); // Open the file for writing
     if (!outfile) {
-        std::cerr << "Unable to create file" << std::endl;
+        cerr << "Unable to create file" << endl;
         return;
     }
 
@@ -52,10 +52,10 @@ void create_file() {
     outfile.close(); // Close the file
 }
 
-void output_file(int& families_ordered_special, double& special_meal_commission, double& average_spending_per_person) {
+void output_file(const int& families_ordered_special, const float& special_meal_commission, const float& average_spending_per_person) {
     ofstream outfile("result.dat"); // Open the file for writing
     if (!outfile) {
-        std::cerr << "Unable to create file" << endl;
+        cerr << "Unable to create file" << endl;
         return;
     }
 
@@ -70,20 +70,22 @@ void output_file(int& families_ordered_special, double& special_meal_commission,
 void read_file() {
     ifstream infile("orders.dat"); // Open the file for reading
     if (!infile) {
-        std::cerr << "Unable to open file" << endl;
+        cerr << "Unable to open file" << endl;
         return;
     }
 
     int family_members, special_members, wine_bottles;
-    double total_bill;
+    float total_bill;
 
-    while (infile >> family_members >> special_members >> wine_bottles >> total_bill) {
-        int index;
+    infile >> family_members >> special_members >> wine_bottles >> total_bill;
+    int index = 0;
+    while (!infile.eof()) {
         orders[index].family_members = family_members;
         orders[index].members_ordered_special = special_members;
         orders[index].wine_bottles = wine_bottles;
         orders[index].total_bill = total_bill;
         index++;
+        infile >> family_members >> special_members >> wine_bottles >> total_bill;
     }
 
     infile.close(); // Close the file
@@ -91,10 +93,10 @@ void read_file() {
 
 int main() {
     int families_ordered_special = 0;
-    double special_meal_commission;
-    double average_spending_per_person;
+    float special_meal_commission = 0;
+    float average_spending_per_person = 0;
     int total_number_of_people = 0;
-    double total_money_spent = 0;
+    float total_money_spent = 0;
 
     create_file();
     read_file();
@@ -109,7 +111,7 @@ int main() {
     }
 
     // Calculate the average spending per person
-    average_spending_per_person += total_money_spent / static_cast<double>(total_number_of_people);
+    average_spending_per_person += total_money_spent / static_cast<float>(total_number_of_people);
 
     // Output the results to a file
     output_file(families_ordered_special, special_meal_commission, average_spending_per_person);
