@@ -115,6 +115,7 @@ int main() {
 
     // Output the results to a file
     output_file(families_ordered_special, special_meal_commission, average_spending_per_person);
+    cout << "Results have been written to result.dat" << endl;
 
     return 0;
 }
